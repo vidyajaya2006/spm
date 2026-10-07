@@ -10,13 +10,13 @@ pipeline {
             }
         }
 
-        stage('Unit Tests') {
+     
+stage('Unit Tests') {
     steps {
         echo 'Running unit tests...'
-        bat 'C:\\Windows\\System32\\cmd.exe /c python -m pytest -v'
+        powershell 'python -m pytest -v'
     }
 }
-
         stage('Docker Build') {
             steps {
                 echo 'Building Docker image...'
