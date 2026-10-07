@@ -14,12 +14,12 @@ pipeline {
             }
         }
 
-        stage('Unit Tests') {
-            steps {
-                echo 'Running unit tests...'
-                bat 'python -m pytest -v'
-            }
-        }
+     stage('Unit Tests') {
+    steps {
+        echo 'Running unit tests...'
+        bat '"C:\\Users\\heman\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe" -m pytest -v'
+    }
+}
 
         stage('Docker Build') {
             steps {
