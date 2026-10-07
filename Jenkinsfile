@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        PATH = "C:\\Windows\\System32;C:\\Windows\\System32\\WindowsPowerShell\\v1.0;C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
+    }
+
     stages {
 
         stage('Checkout') {
@@ -10,13 +14,13 @@ pipeline {
             }
         }
 
-     
-stage('Unit Tests') {
-    steps {
-        echo 'Running unit tests...'
-        powershell 'python -m pytest -v'
-    }
-}
+        stage('Unit Tests') {
+            steps {
+                echo 'Running unit tests...'
+                bat 'python -m pytest -v'
+            }
+        }
+
         stage('Docker Build') {
             steps {
                 echo 'Building Docker image...'
@@ -29,6 +33,7 @@ stage('Unit Tests') {
         success {
             echo 'Pipeline completed successfully!'
         }
+
         failure {
             echo 'Pipeline failed. Check the console output.'
         }
