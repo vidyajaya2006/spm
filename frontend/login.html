@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PET — Personal Expense Tracker</title>
+
+    <meta
+        name="description"
+        content="PET — Personal Expense Tracker. Track expenses, manage budgets and reach your financial goals."
+    >
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6c63ff;
+            --primary-dark: #5148e5;
+            --secondary: #00c9a7;
+            --dark: #101426;
+            --text: #20243a;
+            --muted: #777d98;
+            --light: #f6f7fb;
+            --white: #ffffff;
+            --border: #e8eaf2;
+            --danger: #ff5c7a;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Inter, Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(108, 99, 255, 0.22),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(0, 201, 167, 0.18),
+                    transparent 35%
+                ),
+                #f6f7fb;
+            color: var(--text);
+        }
+
+        /* ================================
+           MAIN LAYOUT
+        ================================= */
+
+        .page {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 55% 45%;
+        }
+
+        /* ================================
+           LEFT SIDE
+        ================================= */
+
+        .brand-side {
+            position: relative;
+            overflow: hidden;
+            padding: 55px 8%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(255,255,255,0.15),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    145deg,
+                    #171a38 0%,
+                    #3730a3 48%,
+                    #6c63ff 100%
+                );
+        }
+
+        .brand-side::before {
+            content: "";
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            top: -170px;
+            right: -120px;
+        }
+
+        .brand-side::after {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(0,201,167,0.10);
+            bottom: -120px;
+            left: -100px;
+        }
+
+        .brand-content,
+        .brand-footer {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ================================
+           LOGO
+        ================================= */
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+
+            font-size: 22px;
+            font-weight: 800;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        /* ================================
+           HERO TEXT
+        ================================= */
+
+        .hero {
+            max-width: 650px;
+            margin-top: 80px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 14px;
+            margin-bottom: 22px;
+
+            border-radius: 50px;
+
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.16);
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .hero-badge span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00e6bf;
+            box-shadow: 0 0 12px #00e6bf;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 5vw, 70px);
+            line-height: 1.03;
+            letter-spacing: -3px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(
+                90deg,
+                #ffffff,
+                #b8fff1
+            );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            max-width: 590px;
+            color: rgba(255,255,255,0.75);
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        /* ================================
+           MONEY CARD
+        ================================= */
+
+        .money-card {
+            width: min(100%, 520px);
+            margin-top: 42px;
+
+            padding: 25px;
+
+            border-radius: 24px;
+
+            background: rgba(255,255,255,0.11);
+            border: 1px solid rgba(255,255,255,0.15);
+
+            backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 25px 70px rgba(0,0,0,0.18);
+        }
+
+        .money-title {
+            color: rgba(255,255,255,0.65);
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .money-value {
+            font-size: 35px;
+            font-weight: 800;
+            margin-bottom: 22px;
+        }
+
+        .money-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .money-stat {
+            padding: 15px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .money-stat-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 7px;
+        }
+
+        .money-stat-value {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .income {
+            color: #6fffe3;
+        }
+
+        .expense {
+            color: #ff9db0;
+        }
+
+        /* ================================
+           FEATURES
+        ================================= */
+
+        .features {
+            margin-top: 35px;
+            display: grid;
+            gap: 13px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            color: rgba(255,255,255,0.82);
+            font-size: 14px;
+        }
+
+        .feature-icon {
+            width: 29px;
+            height: 29px;
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background: rgba(255,255,255,0.11);
+            color: #7fffe6;
+            font-size: 14px;
+        }
+
+        .brand-footer {
+            color: rgba(255,255,255,0.45);
+            font-size: 12px;
+        }
+
+        /* ================================
+           LOGIN SIDE
+        ================================= */
+
+        .login-side {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 45px;
+
+            background: rgba(255,255,255,0.92);
+        }
+
+        .login-container {
+            width: min(100%, 450px);
+        }
+
+        .mobile-logo {
+            display: none;
+        }
+
+        .welcome {
+            margin-bottom: 34px;
+        }
+
+        .welcome-label {
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.8px;
+            margin-bottom: 12px;
+        }
+
+        .welcome h2 {
+            font-size: 38px;
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            margin-bottom: 11px;
+        }
+
+        .welcome p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* ================================
+           FORM
+        ================================= */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+
+            color: #3a3f59;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 17px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            color: #969bb1;
+            font-size: 16px;
+            pointer-events: none;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 54px;
+
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+
+            background: #fafbfe;
+
+            padding: 0 17px 0 48px;
+
+            color: var(--text);
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            background: white;
+
+            box-shadow:
+                0 0 0 4px rgba(108,99,255,0.10);
+        }
+
+        .password-input {
+            padding-right: 50px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            border: none;
+            background: transparent;
+
+            color: #858aa3;
+            cursor: pointer;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        /* ================================
+           OPTIONS
+        ================================= */
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin: 4px 0 25px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            color: #6e738b;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .remember input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .forgot {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .forgot:hover {
+            text-decoration: underline;
+        }
+
+        /* ================================
+           BUTTON
+        ================================= */
+
+        .login-button {
+            width: 100%;
+            height: 55px;
+
+            border: none;
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    #8a7cff
+                );
+
+            color: white;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 12px 25px rgba(108,99,255,0.25);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 17px 32px rgba(108,99,255,0.32);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        .login-button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ================================
+           MESSAGE
+        ================================= */
+
+        .message {
+            display: none;
+
+            padding: 13px 15px;
+            margin-bottom: 18px;
+
+            border-radius: 12px;
+
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.error {
+            color: #b42342;
+            background: #fff0f3;
+            border: 1px solid #ffd4dd;
+        }
+
+        .message.success {
+            color: #087a67;
+            background: #ecfffa;
+            border: 1px solid #c4f6ec;
+        }
+
+        /* ================================
+           REGISTER
+        ================================= */
+
+        .register-text {
+            text-align: center;
+
+            margin-top: 27px;
+            padding-top: 25px;
+
+            border-top: 1px solid var(--border);
+
+            color: #777d95;
+            font-size: 13px;
+        }
+
+        .register-text a {
+            color: var(--primary);
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .register-text a:hover {
+            text-decoration: underline;
+        }
+
+        .secure-text {
+            margin-top: 22px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+
+            color: #a0a5b8;
+            font-size: 11px;
+        }
+
+        /* ================================
+           LOADING
+        ================================= */
+
+        .button-loading {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+
+            border: 2px solid rgba(255,255,255,0.4);
+            border-top-color: white;
+
+            border-radius: 50%;
+
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 1000px) {
+
+            .page {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-side {
+                min-height: 600px;
+                padding: 40px 7%;
+            }
+
+            .login-side {
+                min-height: 650px;
+                padding: 40px 7%;
+            }
+
+            .hero {
+                margin-top: 55px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .brand-side {
+                min-height: auto;
+                padding: 28px 22px 40px;
+            }
+
+            .brand-footer {
+                margin-top: 35px;
+            }
+
+            .hero {
+                margin-top: 45px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+                letter-spacing: -2px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .money-card {
+                margin-top: 30px;
+                padding: 19px;
+            }
+
+            .money-value {
+                font-size: 28px;
+            }
+
+            .money-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .login-side {
+                padding: 40px 22px;
+            }
+
+            .welcome h2 {
+                font-size: 31px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- =================================
+         LEFT BRANDING
+    ================================== -->
+
+    <section class="brand-side">
+
+        <div class="brand-content">
+
+            <div class="logo">
+                <div class="logo-icon">₹</div>
+                <div>
+                    PET
+                    <small style="
+                        display:block;
+                        font-size:9px;
+                        font-weight:500;
+                        opacity:.55;
+                        letter-spacing:1px;
+                    ">
+                        PERSONAL EXPENSE TRACKER
+                    </small>
+                </div>
+            </div>
+
+
+            <div class="hero">
+
+                <div class="hero-badge">
+                    <span></span>
+                    Your money. Your control.
+                </div>
+
+                <h1>
+                    Spend smarter.<br>
+                    <span>Live better.</span>
+                </h1>
+
+                <p>
+                    A simple and powerful way to track expenses,
+                    manage budgets, build savings and understand
+                    your financial life.
+                </p>
+
+
+                <div class="money-card">
+
+                    <div class="money-title">
+                        TOTAL BALANCE
+                    </div>
+
+                    <div class="money-value">
+                        ₹48,250.00
+                    </div>
+
+                    <div class="money-stats">
+
+                        <div class="money-stat">
+                            <div class="money-stat-label">
+                                ↑ INCOME
+                            </div>
+
+                            <div class="money-stat-value income">
+                                ₹65,000
+                            </div>
+                        </div>
+
+
+                        <div class="money-stat">
+                            <div class="money-stat-label">
+                                ↓ EXPENSES
+                            </div>
+
+                            <div class="money-stat-value expense">
+                                ₹16,750
+                            </div>
+                        </div>
+
+
+                        <div class="money-stat">
+                            <div class="money-stat-label">
+                                MONTHLY BUDGET
+                            </div>
+
+                            <div class="money-stat-value">
+                                67%
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="features">
+
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div>
+                            <strong>Track every expense</strong>
+                            — know where your money goes.
+                        </div>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div>
+                            <strong>Stay within budget</strong>
+                            — plan spending before it happens.
+                        </div>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div>
+                            <strong>Reach your goals</strong>
+                            — turn savings into progress.
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="brand-footer">
+            © 2026 PET — Personal Expense Tracker
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         LOGIN
+    ================================== -->
+
+    <section class="login-side">
+
+        <div class="login-container">
+
+            <div class="mobile-logo">
+
+                <div class="logo">
+                    <div class="logo-icon">₹</div>
+                    PET
+                </div>
+
+            </div>
+
+
+            <div class="welcome">
+
+                <div class="welcome-label">
+                    WELCOME BACK
+                </div>
+
+                <h2>
+                    Sign in to PET
+                </h2>
+
+                <p>
+                    Manage your money from one simple dashboard.
+                </p>
+
+            </div>
+
+
+            <!-- MESSAGE -->
+            <div
+                id="authMessage"
+                class="message"
+                role="alert"
+            ></div>
+
+
+            <!-- LOGIN FORM -->
+
+            <form id="loginForm">
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="email"
+                    >
+                        Email
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            @
+                        </span>
+
+                        <input
+                            class="form-input"
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="password"
+                    >
+                        Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ●
+                        </span>
+
+                        <input
+                            class="form-input password-input"
+                            id="password"
+                            name="password"
+                            type="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="togglePassword"
+                        >
+                            Show
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OPTIONS -->
+
+                <div class="form-options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="remember"
+                            name="remember"
+                        >
+
+                        Keep me signed in
+
+                    </label>
+
+
+                    <a
+                        href="#"
+                        class="forgot"
+                        onclick="return false;"
+                    >
+                        Forgot password?
+                    </a>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    type="submit"
+                    class="login-button"
+                    id="loginButton"
+                >
+                    Sign in to PET
+                </button>
+
+            </form>
+
+
+            <!-- REGISTER -->
+
+            <div class="register-text">
+
+                New to PET?
+
+                <a href="/register.html">
+                    Create your account
+                </a>
+
+            </div>
+
+
+            <div class="secure-text">
+                🔒 Your financial data stays private
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =================================
+     AUTH JAVASCRIPT
+================================== -->
+
+<script src="/auth.js"></script>
+
+
+<script>
+
+    /* Password visibility */
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const togglePassword =
+        document.getElementById("togglePassword");
+
+    if (togglePassword) {
+
+        togglePassword.addEventListener(
+            "click",
+            function () {
+
+                if (passwordInput.type === "password") {
+
+                    passwordInput.type = "text";
+                    togglePassword.textContent = "Hide";
+
+                } else {
+
+                    passwordInput.type = "password";
+                    togglePassword.textContent = "Show";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* Login form */
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+    if (loginForm) {
+
+        loginForm.addEventListener(
+            "submit",
+            function () {
+
+                const button =
+                    document.getElementById("loginButton");
+
+                if (button) {
+
+                    button.innerHTML = `
+                        <span class="button-loading">
+                            <span class="spinner"></span>
+                            Signing in...
+                        </span>
+                    `;
+
+                    button.disabled = true;
+
+                }
+
+            }
+        );
+
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account — PET</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6c63ff;
+            --primary-dark: #5148e5;
+            --green: #00c9a7;
+            --dark: #11152d;
+            --text: #20243a;
+            --muted: #777d98;
+            --border: #e7e9f1;
+            --background: #f6f7fb;
+            --white: #ffffff;
+            --danger: #ef476f;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Inter, Arial, Helvetica, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(108, 99, 255, 0.20),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 90% 90%,
+                    rgba(0, 201, 167, 0.16),
+                    transparent 35%
+                ),
+                var(--background);
+
+            color: var(--text);
+        }
+
+        /* ==========================
+           LAYOUT
+        ========================== */
+
+        .page {
+            min-height: 100vh;
+
+            display: grid;
+            grid-template-columns: 46% 54%;
+        }
+
+        /* ==========================
+           LEFT PANEL
+        ========================== */
+
+        .brand-panel {
+            position: relative;
+            overflow: hidden;
+
+            padding: 55px 8%;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at 85% 15%,
+                    rgba(255,255,255,0.12),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    145deg,
+                    #161936,
+                    #3730a3 52%,
+                    #6c63ff
+                );
+        }
+
+        .brand-panel::before {
+            content: "";
+
+            position: absolute;
+
+            width: 420px;
+            height: 420px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.055);
+
+            top: -200px;
+            left: -160px;
+        }
+
+        .brand-panel::after {
+            content: "";
+
+            position: absolute;
+
+            width: 350px;
+            height: 350px;
+
+            border-radius: 50%;
+
+            background: rgba(0,201,167,0.10);
+
+            bottom: -170px;
+            right: -130px;
+        }
+
+        .brand-content,
+        .brand-footer {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ==========================
+           LOGO
+        ========================== */
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .logo-icon {
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background: rgba(255,255,255,0.14);
+            border: 1px solid rgba(255,255,255,0.18);
+
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        /* ==========================
+           HERO
+        ========================== */
+
+        .hero {
+            max-width: 550px;
+            margin-top: 90px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 14px;
+
+            border-radius: 50px;
+
+            background: rgba(255,255,255,0.11);
+            border: 1px solid rgba(255,255,255,0.15);
+
+            font-size: 12px;
+            font-weight: 700;
+
+            margin-bottom: 25px;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #70ffe6;
+
+            box-shadow: 0 0 12px #70ffe6;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 5vw, 66px);
+            line-height: 1.03;
+
+            letter-spacing: -3px;
+
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: #8ffff0;
+        }
+
+        .hero p {
+            max-width: 500px;
+
+            color: rgba(255,255,255,0.70);
+
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        /* ==========================
+           MINI DASHBOARD
+        ========================== */
+
+        .preview {
+            margin-top: 40px;
+
+            width: min(100%, 500px);
+
+            padding: 20px;
+
+            border-radius: 22px;
+
+            background: rgba(255,255,255,0.10);
+
+            border:
+                1px solid rgba(255,255,255,0.14);
+
+            backdrop-filter: blur(15px);
+
+            box-shadow:
+                0 25px 60px rgba(0,0,0,0.16);
+        }
+
+        .preview-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+        .preview-title {
+            font-size: 12px;
+            color: rgba(255,255,255,0.55);
+        }
+
+        .preview-balance {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .trend {
+            padding: 7px 10px;
+
+            border-radius: 10px;
+
+            background: rgba(0,201,167,0.12);
+
+            color: #74ffe7;
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .progress {
+            height: 8px;
+
+            border-radius: 20px;
+
+            background: rgba(255,255,255,0.10);
+
+            overflow: hidden;
+
+            margin-top: 12px;
+        }
+
+        .progress span {
+            display: block;
+
+            width: 67%;
+            height: 100%;
+
+            border-radius: inherit;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #00c9a7,
+                    #8ffff0
+                );
+        }
+
+        .preview-bottom {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+
+            margin-top: 20px;
+        }
+
+        .preview-stat {
+            padding: 13px;
+
+            border-radius: 13px;
+
+            background: rgba(255,255,255,0.07);
+        }
+
+        .preview-stat small {
+            display: block;
+
+            color: rgba(255,255,255,0.45);
+
+            font-size: 10px;
+
+            margin-bottom: 5px;
+        }
+
+        .preview-stat strong {
+            font-size: 14px;
+        }
+
+        .green {
+            color: #75ffe7;
+        }
+
+        .pink {
+            color: #ff9db1;
+        }
+
+        .brand-footer {
+            color: rgba(255,255,255,0.40);
+            font-size: 11px;
+        }
+
+        /* ==========================
+           REGISTER PANEL
+        ========================== */
+
+        .register-panel {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 45px;
+        }
+
+        .register-container {
+            width: min(100%, 480px);
+        }
+
+        .heading {
+            margin-bottom: 28px;
+        }
+
+        .heading-label {
+            color: var(--primary);
+
+            font-size: 11px;
+            font-weight: 800;
+
+            letter-spacing: 1.8px;
+
+            margin-bottom: 10px;
+        }
+
+        .heading h2 {
+            font-size: 37px;
+            line-height: 1.15;
+
+            letter-spacing: -1.5px;
+
+            margin-bottom: 10px;
+        }
+
+        .heading p {
+            color: var(--muted);
+
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* ==========================
+           MESSAGE
+        ========================== */
+
+        .message {
+            display: none;
+
+            padding: 13px 15px;
+
+            margin-bottom: 18px;
+
+            border-radius: 12px;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.error {
+            color: #b42342;
+
+            background: #fff0f3;
+
+            border: 1px solid #ffd4dd;
+        }
+
+        .message.success {
+            color: #087a67;
+
+            background: #ecfffa;
+
+            border: 1px solid #c4f6ec;
+        }
+
+        /* ==========================
+           FORM
+        ========================== */
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #3d425b;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+
+            left: 16px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #969bb1;
+
+            font-size: 14px;
+
+            pointer-events: none;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 52px;
+
+            border: 1.5px solid var(--border);
+
+            border-radius: 14px;
+
+            background: #fafbfe;
+
+            padding:
+                0 17px 0 46px;
+
+            color: var(--text);
+
+            font-size: 13px;
+
+            outline: none;
+
+            transition: 0.2s ease;
+        }
+
+        .form-input:focus {
+            background: white;
+
+            border-color: var(--primary);
+
+            box-shadow:
+                0 0 0 4px rgba(108,99,255,0.09);
+        }
+
+        .password-input {
+            padding-right: 52px;
+        }
+
+        .password-toggle {
+            position: absolute;
+
+            right: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            color: #858aa3;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        /* ==========================
+           PASSWORD STRENGTH
+        ========================== */
+
+        .strength {
+            margin-top: 9px;
+        }
+
+        .strength-bars {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+        }
+
+        .strength-bar {
+            height: 3px;
+
+            border-radius: 10px;
+
+            background: #e5e7ef;
+
+            transition: 0.2s;
+        }
+
+        .strength-text {
+            margin-top: 5px;
+
+            color: #999eb2;
+
+            font-size: 10px;
+        }
+
+        /* ==========================
+           TERMS
+        ========================== */
+
+        .terms {
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 9px;
+
+            margin: 18px 0 22px;
+
+            color: #777d95;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+        .terms input {
+            width: 16px;
+            height: 16px;
+
+            flex-shrink: 0;
+
+            margin-top: 1px;
+
+            accent-color: var(--primary);
+        }
+
+        .terms a {
+            color: var(--primary);
+
+            text-decoration: none;
+
+            font-weight: 700;
+        }
+
+        /* ==========================
+           BUTTON
+        ========================== */
+
+        .register-button {
+            width: 100%;
+            height: 54px;
+
+            border: none;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    #8a7cff
+                );
+
+            color: white;
+
+            font-size: 13px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 12px 26px rgba(108,99,255,0.25);
+
+            transition: 0.2s ease;
+        }
+
+        .register-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 17px 32px rgba(108,99,255,0.32);
+        }
+
+        .register-button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ==========================
+           FOOTER LOGIN
+        ========================== */
+
+        .login-link {
+            text-align: center;
+
+            margin-top: 24px;
+            padding-top: 23px;
+
+            border-top: 1px solid var(--border);
+
+            color: #777d95;
+
+            font-size: 12px;
+        }
+
+        .login-link a {
+            color: var(--primary);
+
+            font-weight: 800;
+
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .secure {
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #a0a5b8;
+
+            font-size: 10px;
+        }
+
+        /* ==========================
+           LOADING
+        ========================== */
+
+        .loading {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+        }
+
+        .spinner {
+            width: 15px;
+            height: 15px;
+
+            border: 2px solid rgba(255,255,255,0.4);
+
+            border-top-color: white;
+
+            border-radius: 50%;
+
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ==========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 1000px) {
+
+            .page {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-panel {
+                min-height: 600px;
+            }
+
+            .register-panel {
+                min-height: 700px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .brand-panel {
+                padding: 28px 22px 40px;
+            }
+
+            .hero {
+                margin-top: 50px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .preview {
+                margin-top: 28px;
+            }
+
+            .register-panel {
+                padding: 38px 22px;
+            }
+
+            .heading h2 {
+                font-size: 31px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- =====================================
+         BRAND PANEL
+    ====================================== -->
+
+    <section class="brand-panel">
+
+        <div class="brand-content">
+
+            <!-- LOGO -->
+
+            <div class="logo">
+
+                <div class="logo-icon">
+                    ₹
+                </div>
+
+                <div>
+                    PET
+
+                    <small style="
+                        display:block;
+                        font-size:9px;
+                        font-weight:500;
+                        opacity:.55;
+                        letter-spacing:1px;
+                    ">
+                        PERSONAL EXPENSE TRACKER
+                    </small>
+                </div>
+
+            </div>
+
+
+            <!-- HERO -->
+
+            <div class="hero">
+
+                <div class="badge">
+
+                    <span class="badge-dot"></span>
+
+                    Start your financial journey
+
+                </div>
+
+
+                <h1>
+
+                    Take control<br>
+
+                    <span>of your money.</span>
+
+                </h1>
+
+
+                <p>
+
+                    Create your PET account and get one
+                    simple place to track spending, manage
+                    budgets, monitor savings and understand
+                    your financial habits.
+
+                </p>
+
+
+                <!-- DASHBOARD PREVIEW -->
+
+                <div class="preview">
+
+                    <div class="preview-top">
+
+                        <div>
+
+                            <div class="preview-title">
+                                AVAILABLE BALANCE
+                            </div>
+
+                            <div class="preview-balance">
+                                ₹48,250
+                            </div>
+
+                        </div>
+
+                        <div class="trend">
+                            ↗ 12.8%
+                        </div>
+
+                    </div>
+
+
+                    <div class="preview-title">
+                        MONTHLY BUDGET
+                    </div>
+
+                    <div class="progress">
+                        <span></span>
+                    </div>
+
+
+                    <div class="preview-bottom">
+
+                        <div class="preview-stat">
+
+                            <small>
+                                INCOME
+                            </small>
+
+                            <strong class="green">
+                                ₹65,000
+                            </strong>
+
+                        </div>
+
+
+                        <div class="preview-stat">
+
+                            <small>
+                                EXPENSES
+                            </small>
+
+                            <strong class="pink">
+                                ₹16,750
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="brand-footer">
+
+            © 2026 PET — Personal Expense Tracker
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         REGISTER
+    ====================================== -->
+
+    <section class="register-panel">
+
+        <div class="register-container">
+
+
+            <div class="heading">
+
+                <div class="heading-label">
+                    GET STARTED
+                </div>
+
+                <h2>
+                    Create your PET account
+                </h2>
+
+                <p>
+                    Set up your account and start building
+                    better financial habits today.
+                </p>
+
+            </div>
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="authMessage"
+                class="message"
+                role="alert"
+            ></div>
+
+
+            <!-- FORM -->
+
+            <form id="registerForm">
+
+
+                <!-- NAME -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="name"
+                    >
+                        Full name
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            👤
+                        </span>
+
+                        <input
+                            class="form-input"
+                            id="name"
+                            name="name"
+                            type="text"
+                            placeholder="Enter your full name"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="email"
+                    >
+                        Email address
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            @
+                        </span>
+
+                        <input
+                            class="form-input"
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="password"
+                    >
+                        Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ●
+                        </span>
+
+                        <input
+                            class="form-input password-input"
+                            id="password"
+                            name="password"
+                            type="password"
+                            placeholder="Create a strong password"
+                            autocomplete="new-password"
+                            minlength="6"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="togglePassword"
+                        >
+                            Show
+                        </button>
+
+                    </div>
+
+
+                    <div class="strength">
+
+                        <div class="strength-bars">
+
+                            <span
+                                class="strength-bar"
+                                id="bar1"
+                            ></span>
+
+                            <span
+                                class="strength-bar"
+                                id="bar2"
+                            ></span>
+
+                            <span
+                                class="strength-bar"
+                                id="bar3"
+                            ></span>
+
+                            <span
+                                class="strength-bar"
+                                id="bar4"
+                            ></span>
+
+                        </div>
+
+                        <div
+                            class="strength-text"
+                            id="strengthText"
+                        >
+                            Use at least 6 characters.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="confirmPassword"
+                    >
+                        Confirm password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ✓
+                        </span>
+
+                        <input
+                            class="form-input password-input"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            type="password"
+                            placeholder="Re-enter your password"
+                            autocomplete="new-password"
+                            minlength="6"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="toggleConfirmPassword"
+                        >
+                            Show
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TERMS -->
+
+                <label class="terms">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        name="terms"
+                        required
+                    >
+
+                    <span>
+                        I agree to use PET responsibly and
+                        understand that the application is
+                        intended for personal expense tracking.
+                    </span>
+
+                </label>
+
+
+                <!-- REGISTER BUTTON -->
+
+                <button
+                    type="submit"
+                    class="register-button"
+                    id="registerButton"
+                >
+                    Create my PET account
+                </button>
+
+            </form>
+
+
+            <!-- LOGIN -->
+
+            <div class="login-link">
+
+                Already have an account?
+
+                <a href="/">
+                    Sign in to PET
+                </a>
+
+            </div>
+
+
+            <div class="secure">
+                🔒 Your account information is protected
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- AUTH SCRIPT -->
+
+<script src="/auth.js"></script>
+
+
+<script>
+
+    /* =================================
+       PASSWORD TOGGLE
+    ================================= */
+
+    function setupPasswordToggle(
+        inputId,
+        buttonId
+    ) {
+
+        const input =
+            document.getElementById(inputId);
+
+        const button =
+            document.getElementById(buttonId);
+
+        if (!input || !button) {
+            return;
+        }
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                if (input.type === "password") {
+
+                    input.type = "text";
+
+                    button.textContent = "Hide";
+
+                } else {
+
+                    input.type = "password";
+
+                    button.textContent = "Show";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    setupPasswordToggle(
+        "password",
+        "togglePassword"
+    );
+
+    setupPasswordToggle(
+        "confirmPassword",
+        "toggleConfirmPassword"
+    );
+
+
+    /* =================================
+       PASSWORD STRENGTH
+    ================================= */
+
+    const password =
+        document.getElementById("password");
+
+    const strengthText =
+        document.getElementById("strengthText");
+
+    const bars = [
+        document.getElementById("bar1"),
+        document.getElementById("bar2"),
+        document.getElementById("bar3"),
+        document.getElementById("bar4")
+    ];
+
+
+    password.addEventListener(
+        "input",
+        function () {
+
+            const value = password.value;
+
+            let score = 0;
+
+            if (value.length >= 6) {
+                score++;
+            }
+
+            if (value.length >= 10) {
+                score++;
+            }
+
+            if (/[A-Z]/.test(value)) {
+                score++;
+            }
+
+            if (/[0-9!@#$%^&*]/.test(value)) {
+                score++;
+            }
+
+
+            bars.forEach(
+                function (bar, index) {
+
+                    bar.style.background =
+                        index < score
+                            ? "#6c63ff"
+                            : "#e5e7ef";
+
+                }
+            );
+
+
+            const messages = [
+                "Use at least 6 characters.",
+                "Weak password",
+                "Fair password",
+                "Good password",
+                "Strong password"
+            ];
+
+
+            strengthText.textContent =
+                messages[score];
+
+        }
+    );
+
+
+    /* =================================
+       FORM LOADING STATE
+    ================================= */
+
+    const registerForm =
+        document.getElementById("registerForm");
+
+
+    registerForm.addEventListener(
+        "submit",
+        function () {
+
+            const button =
+                document.getElementById("registerButton");
+
+            if (button) {
+
+                button.innerHTML = `
+                    <span class="loading">
+                        <span class="spinner"></span>
+                        Creating account...
+                    </span>
+                `;
+
+                button.disabled = true;
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
